@@ -1,4 +1,5 @@
 from functools import reduce
+from math import floor
 filename = "input.txt"
 # filename = "example.txt"
 
@@ -20,27 +21,27 @@ for ri in range(len(times)):
 	min_victory = t
 	max_victory = 0
 	center = round(t/2)
-	by_hundreds = True
 	i = 0
+	jump_size = floor(t/4)
 	while True:
 		min_test = center - i
 		max_test = center + i
+		shrink = False
 		if(min_test >= 0 and does_win(min_test, t-min_test, rec)):
 			min_victory = min_test
-		elif(by_hundreds):
-			by_hundreds = False
-			i -= 100
+		else:
+			i -= jump_size
+			shrink = True
 		if(max_test < t and does_win(max_test, t-max_test, rec)):
 			max_victory = max_test
-		elif(by_hundreds):
-			by_hundreds = False
-			i -= 100
-		if(max_victory!=max_test and min_victory!=min_test):
-			break
-		if by_hundreds:
-			i+=100
 		else:
-			i+=1
+			i -= jump_size
+			shrink = True
+		if(shrink):
+			jump_size = floor(jump_size/2)
+		if(jump_size==0):
+			break
+		i+=jump_size
 	# print("Win race: hold for {} to {} ms".format(min_victory, max_victory))
 	total_ways.append((max_victory-min_victory)+1)
 # print(total_ways)
