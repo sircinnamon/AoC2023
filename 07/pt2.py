@@ -61,7 +61,7 @@ for hand in hands:
 	hand[2] = score_hand(hand[0])
 hands.sort(key=lambda x: x[2])
 
-print(hands)
+# print(hands)
 
 total = 0
 for i,hand in enumerate(hands):
