@@ -73,17 +73,19 @@ for i,v in enumerate(verts):
 verts = clean_verts
 
 
-def count_edge_intersects(pt):
-	origin = (0,0)
-	pt = (pt[0], pt[1])
+def inside_test(pt):
+	origin = (0,pt[1])
 	intersects = 0
 	for e in edges:
-		if origin[0] > e[0][0] and origin[0] > e[1][0] and pt[0] > e[0][0] and pt[0] > e[1][0]:
-			# x doesnt cross
-			continue
-		if origin[1] > e[0][1] and origin[1] > e[1][1] and pt[1] > e[0][1] and pt[0] > e[1][1]:
-			# y doesnt cross
-			continue
+		if e[0][1] == e[1][1]:
+			# Horizontal line, ignore it
+			pass
+		elif pt[1] > max(e[0][1], e[1][1]) or pt[1] <= min(e[0][1], e[1][1]):
+			# print("pt {} non intersect with {}-{}".format(pt, e[0], e[1]))
+			pass
+		elif (pt[0] > e[0][0]):
+			intersects+=1
+	return intersects
 
 def pnpoly(pt):
 	# pt: (x,y)
@@ -100,10 +102,6 @@ def pnpoly(pt):
 			(testx < (vertx[j]-vertx[i]) * (testy-verty[i]) / (verty[j]-verty[i]) + vertx[i]) ):
 			inside = not inside;
 		pass
-	# for e in edges:
-	# 	if((e[0][1]>pt[1]) != (e[1][1]>pt[1])):
-	# 		if(pt[0] < (e[1][0]-e[0][0]) * (pt[1]-e[0][1]) / (e[1][1]-e[0][1]) + e[0][0]):
-	# 			inside = not inside
 	return inside
 
 contained = 0
@@ -116,7 +114,10 @@ for test_x in range(min_x, max_x):
 	for test_y in range(min_y, max_y):
 		if((test_x, test_y) in visited.keys()):
 			continue
-		if(pnpoly((test_x+0.5,test_y+0.5))):
+		# if(pnpoly((test_x+0.5,test_y+0.5))):
+		# 	# print(test_x, test_y)
+		# 	contained += 1
+		if(inside_test((test_x, test_y))%2 == 1):
 			# print(test_x, test_y)
 			contained += 1
 print(contained)
