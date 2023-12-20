@@ -50,11 +50,10 @@ with open(filename, "r") as f:
 	while line:
 		springs, sig = line.split(" ")
 		springs = (springs+"?")*5
-		springs = springs[:-1].lstrip(".")
+		springs = springs[:-1]
+		springs = springs.lstrip(".")
 		sig=[int(x) for x in sig.split(",")]
 		sig = sig*5
-		# if(VERBOSE): print(springs,sig)
-		# springs, sig = clean_row(springs, sig)
 		if(VERBOSE): print("######################")
 		if(VERBOSE): print(springs,sig)
 		total+=count_arrangements(springs, tuple(sig))
