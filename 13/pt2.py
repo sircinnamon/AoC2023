@@ -1,5 +1,5 @@
 filename = "input.txt"
-filename = "example.txt"
+# filename = "example.txt"
 
 def find_mirrors(grid):
 	h = find_horizontal_mirrors(grid)
