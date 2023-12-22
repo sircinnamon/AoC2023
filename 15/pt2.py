@@ -1,5 +1,3 @@
-from collections import deque
-
 filename = "input.txt"
 # filename = "example.txt"
 
@@ -15,10 +13,10 @@ def hash(v):
 
 boxes = [[] for i in range(256)]
 def remove_from_box(label, boxid):
-	boxes[boxid] = deque(list(filter(lambda x: x != None and x[0] != label, boxes[boxid])))
+	boxes[boxid] = list(filter(lambda x: x != None and x[0] != label, boxes[boxid]))
 
 def add_to_box(label, boxid, lens):
-	box = list(boxes[boxid])
+	box = boxes[boxid]
 	for i,l in enumerate(box):
 		if l[0] == lens[0]:
 			box[i] = lens
